@@ -1,0 +1,51 @@
+<head>
+	<title><%= $service_name %></title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script defer src="https://use.fontawesome.com/releases/v5.0.2/js/all.js"></script>
+</head>
+<body>
+	<div class="navbar navbar-expand-lg navbar-light bg-dark fixed-top">
+		<div class="container">
+	  		<a class="navbar-brand" href="#"><%= $service_name %></a>
+	  		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+	    		<span class="navbar-toggler-icon"></span>
+	  		</button>
+
+	  		<div class="collapse navbar-collapse" id="navbarColor02">
+	    		<ul class="navbar-nav mr-auto">
+	      			<li class="nav-item <%= 'active' if request.path == '/' %>">
+	        			<a class="nav-link" href="/"><i class="fas fa-home"></i> Home<span class="sr-only">(current)</span></a>
+	      			</li>
+	      			<li class="nav-item <%= 'active' if request.path == '/about' %>">
+	        			<a class="nav-link" href="/about"><i class="fas fa-info-circle"></i> About</a>
+	      			</li>
+	      			<li class="nav-item">
+	        			<a class="nav-link" href="#"><i class="fas fa-archive"></i> Problems</a>
+	      			</li>
+	      			<li class="nav-item">
+	        			<a class="nav-link" href="#"><i class="fas fa-sync-alt"></i> Submitions</a>
+	      			</li>
+	      			<li class="nav-item">
+	        			<a class="nav-link" href="#"><i class="fas fa-sort"></i> Ranks</a>
+	      			</li>
+	    		</ul>
+		    	<ul class="nav navbar-nav ml-auto">
+		            <li class="nav-item">
+		              <a class="nav-link" href="#"><i class="fas fa-sign-in-alt"></i> Login</a>
+		            </li>
+		          </ul>
+		  	</div>
+		</div>
+	</div>
+	<br><br><br><br><br>
+	<div class="container">
+		<%= yield %>
+		<p>
+			Developed by Jason Hsieh.<br>
+			Copyright © <%= Time.now.year %> Wuling Judge. All rights reserved.<br>
+		</p>
+	</div>
+</body>

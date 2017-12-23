@@ -1,0 +1,34 @@
+<div class="row">
+    <div class="col-lg-3"></div>
+    <div class="col-lg-6">
+    	<div class="card border-gray mb-3">
+			<div class="card-header"><i class="fas fa-sign-in-alt"></i> Sign in/up</div>
+			<div class="card-body text-dark">
+				<form action="/signin" method="POST">
+					<fieldset>
+						<div class="form-group row">
+							<div class = "col-sm-1"></div>
+							<label for="Email" class="col-sm-3 col-form-label"><i class="fas fa-envelope"></i> Email</label>
+						    <input type="email" class="form-control col-sm-7" id="Email" aria-describedby="emailHelp" name="email">
+						    <div class = "col-sm-1"></div>
+						</div>
+						<div class="form-group row">
+							<div class = "col-sm-1"></div>
+							<label for="Password" class="col-sm-3 col-form-label"><i class="fas fa-key"></i> Password</label>
+						    <input type="Password" class="form-control col-sm-7" id="Password" name="password">
+						    <div class = "col-sm-1"></div>
+						</div><br>
+						<div class="row">
+						 	<div class="col-sm-2"></div>
+						 	<button type="submit" class="btn btn-primary col-sm-3" name="submit" value="signin"><i class="fas fa-sign-in-alt"></i> Sign in</button>
+						 	<div class="col-sm-2"></div>
+						 	<button type="submit" class="btn btn-primary col-sm-3" name="submit" value="signup"><i class="fas fa-user-plus"></i> Sign up</button>
+						 	<div class="col-sm-2"></div>
+						 </div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-3"></div>
+</div>

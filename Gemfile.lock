@@ -5,18 +5,24 @@ GEM
     rack (2.0.3)
     rack-protection (2.0.0)
       rack
+    redis (4.0.1)
     sinatra (2.0.0)
       mustermann (~> 1.0)
       rack (~> 2.0)
       rack-protection (= 2.0.0)
       tilt (~> 2.0)
     tilt (2.0.8)
+    usagewatch (0.0.7)
+    usagewatch_ext (0.2.1)
+      usagewatch (~> 0.0.6)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  redis (~> 4.0)
   sinatra (~> 2.0)
+  usagewatch_ext (~> 0.2.1)
 
 BUNDLED WITH
-   1.16.0
+   1.16.1

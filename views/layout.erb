@@ -1,11 +1,22 @@
 <head>
-	<title><%= $service_name %></title>
+	<title><%= $service_name %> - <%= @title %></title>
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 	<script defer src="https://use.fontawesome.com/releases/v5.0.2/js/all.js"></script>
-</head>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.9/ace.js" integrity="sha256-U//RSeH3TR3773Rk+1lAufJnRjEaG5LcdbvGV72kHEM=" crossorigin="anonymous"></script>
+
+	<style type="text/css" media="screen">
+	    #editor { 
+	        position: absolute;
+	        word-spacing: normal;
+	        top: 0;
+	        right: 0;
+	        bottom: 0;
+	        left: 0;
+	    }
+	</style>
 <body>
 	<div class="navbar navbar-expand-lg navbar-light bg-dark fixed-top">
 		<div class="container">
@@ -22,30 +33,40 @@
 	      			<li class="nav-item <%= 'active' if request.path == '/about' %>">
 	        			<a class="nav-link" href="/about"><i class="fas fa-info-circle"></i> About</a>
 	      			</li>
-	      			<li class="nav-item">
+	      			<li class="nav-item <%= 'active' if request.path.split('/')[1] == 'problems' %>">
 	        			<a class="nav-link" href="#"><i class="fas fa-archive"></i> Problems</a>
 	      			</li>
-	      			<li class="nav-item">
-	        			<a class="nav-link" href="#"><i class="fas fa-sync-alt"></i> Submitions</a>
+	      			<li class="nav-item <%= 'active' if request.path.split('/')[1] == 'submitions' %>">
+	        			<a class="nav-link" href="/submitions"><i class="fas fa-sync-alt"></i> Submitions</a>
 	      			</li>
 	      			<li class="nav-item">
 	        			<a class="nav-link" href="#"><i class="fas fa-sort"></i> Ranks</a>
 	      			</li>
 	    		</ul>
 		    	<ul class="nav navbar-nav ml-auto">
-		            <li class="nav-item">
-		              <a class="nav-link" href="#"><i class="fas fa-sign-in-alt"></i> Login</a>
+		            <li class="nav-item <%= 'active' if request.path == '/signin' %>">
+		              <a class="nav-link" href="/signin"><i class="fas fa-sign-in-alt"></i> Sign in/up</a>
 		            </li>
 		          </ul>
 		  	</div>
 		</div>
 	</div>
-	<br><br><br><br><br>
+	<br><br><br><br>
 	<div class="container">
+		<% if @msg != nil %>
+			<% @msg.each do |msg|%>
+				<div class="alert alert-dismissible alert-<%= msg["type"] %>">
+			  		<button type="button" class="close" data-dismiss="alert">&times;</button>
+			  		<%= msg["content"] %>
+				</div>
+			<% end %>
+		<% end %>
+
 		<%= yield %>
+		<br>
 		<p>
 			Developed by Jason Hsieh.<br>
-			Copyright © <%= Time.now.year %> Wuling Judge. All rights reserved.<br>
+			Copyright © <%= Time.now.year %> <%= $service_name %>. All rights reserved.<br>
 		</p>
 	</div>
 </body>

@@ -1,13 +1,95 @@
-<div class="jumbotron">
-	<h1>About</h1>
-	<p>
-		Wuling Online Judge is a judge developed by students of Wuling High School.<br>
-		Built with <a href="https://www.ruby-lang.org/">Ruby</a> web platform - <a href="http://sinatrarb.com">Sinatra</a>, <a href="https://redis.io">Redis</a>,  <a href="https://www.postgresql.org">PostgreSQL</a>, <a href="https://www.docker.com">Docker</a> and <a href="https://gcc.gnu.org">GCC</a>.
-	</p>
-
-	<h5>Main Developers:</h5>
-	<ul>
-		<li>謝文傑 (Jason Hsieh)</li>
-	</ul>
-
+<div class="row">
+    <div class="col-lg-6">
+    	<div class="card border-gray mb-3">
+			<div class="card-header"><i class="fas fa-info-circle"></i> About</div>
+			<div class="card-body text-dark">
+				<p>
+					<%= $service_name %> is a judge developed by students of Wuling High School. Built with <a href="https://www.ruby-lang.org/" target="_blank">Ruby</a> language, <a href="http://sinatrarb.com" target="_blank">Sinatra</a> framework, <a href="https://redis.io" target="_blank">Redis</a> and <a href="https://www.postgresql.org" target="_blank">PostgreSQL</a> database, <a href="https://www.docker.com" target="_blank">Docker</a> container and <a href="https://gcc.gnu.org" target="_blank">GCC</a> compiler.<br>
+				</p>
+				<h5 class="card-title">Main Developers:</h5>
+				<ul>
+					<% $developers.each do |name, link|%>
+						<li><a <%= 'href="' + link + '" target="_blank"' if link != nil %>><%= name %></a></li>
+					<% end %>
+				</ul>
+			</div>
+		</div>
+	</div>
+    <div class="col-lg-6">
+    	<div class="card border-gray mb-3">
+			<div class="card-header"><i class="fas fa-thermometer-half"></i> System States</div>
+			<div class="card-body text-dark">
+				<p>Resources</p>
+				<table class="table">
+					<tbody>
+						<tr>
+							<th><i class="fas fa-microchip"></i></th>
+							<td>CPU Usage</td>
+							<td><%= Usagewatch.uw_cpuused %> %</td>
+						</tr>
+						<tr>
+							<th><i class="fas fa-chart-area"></i></th>
+							<td>Memory Usage</td>
+							<td><%= 0 %> %</td>
+						</tr>
+						<tr>
+							<th><i class="fas fa-archive"></i></th>
+							<td>Problems</td>
+							<td><%= $redis.dbsize * 2273 %></td>
+						</tr>
+						<tr>
+							<th><i class="fas fa-users"></i></th>
+							<td>Users</td>
+							<td><%= $redis.dbsize * 1322 %></td>
+						</tr>
+						<tr>
+							<th><i class="fas fa-sync-alt"></i></th>
+							<td>Queue</td>
+							<td><%= $redis.llen('queue') %></td>
+						</tr>
+						<tr>
+							<th><i class="fab fa-docker"></i></th>
+							<td>Judgers</td>
+							<td><%= $redis.get('docker') %></td>
+						</tr>
+					</tbody>
+				</table> 
+				<p>Languages</p>
+				<table class="table">
+					<tbody>
+						<tr>
+							<th><i class="fas fa-cog"></i></th>
+							<td>C</td>
+							<td>gcc</td>
+							<td>4.8.5</td>
+						</tr>
+					</tbody>
+					<tbody>
+						<tr>
+							<th><i class="fas fa-cog"></i></th>
+							<td>C++</td>
+							<td>g++</td>
+							<td>4.8.5</td>
+						</tr>
+					</tbody>
+					<tbody>
+						<tr>
+							<th><i class="fas fa-gem"></i></th>
+							<td>Ruby</td>
+							<td>ruby</td>
+							<td>2.4.3</td>
+						</tr>
+					</tbody>
+					<tbody>
+						<tr>
+							<th><i class="fab fa-python"></i></th>
+							<td>Python</td>
+							<td>python</td>
+							<td>3.6.4</td>
+						</tr>
+					</tbody>
+				</table> 
+			</div>
+		</div>
+	</div>
 </div>

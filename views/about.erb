@@ -4,7 +4,7 @@
 			<div class="card-header"><i class="fas fa-info-circle"></i> About</div>
 			<div class="card-body text-dark">
 				<p>
-					<%= $service_name %> is a judge developed by students of Wuling High School. Built with <a href="https://www.ruby-lang.org/" target="_blank">Ruby</a> language, <a href="http://sinatrarb.com" target="_blank">Sinatra</a> framework, <a href="https://redis.io" target="_blank">Redis</a> and <a href="https://www.postgresql.org" target="_blank">PostgreSQL</a> database, <a href="https://www.docker.com" target="_blank">Docker</a> container and <a href="https://gcc.gnu.org" target="_blank">GCC</a> compiler.<br>
+					<%= $service_name %> is a judge developed by students of Wuling High School. Built with <a href="https://www.ruby-lang.org/" target="_blank">Ruby</a> language, <a href="http://sinatrarb.com" target="_blank">Sinatra</a> framework, <a href="https://redis.io" target="_blank">Redis</a> and <a href="hhttps://sqlite.org" target="_blank">Sqlite3</a> database, <a href="https://www.docker.com" target="_blank">Docker</a> container and <a href="https://gcc.gnu.org" target="_blank">GCC</a> compiler.<br>
 				</p>
 				<h5 class="card-title">Main Developers:</h5>
 				<ul>
@@ -40,7 +40,7 @@
 						<tr>
 							<th><i class="fas fa-users"></i></th>
 							<td>Users</td>
-							<td><%= $redis.dbsize * 1322 %></td>
+							<td><%= @user_count %></td>
 						</tr>
 						<tr>
 							<th><i class="fas fa-sync-alt"></i></th>

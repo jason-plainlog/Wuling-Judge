@@ -9,7 +9,7 @@
 						<div class="form-group row">
 							<div class = "col-sm-1"></div>
 							<label for="Email" class="col-sm-3 col-form-label"><i class="fas fa-envelope"></i> Email</label>
-						    <input type="email" class="form-control col-sm-7" id="Email" aria-describedby="emailHelp" name="email">
+						    <input type="email" class="form-control col-sm-7" id="Email" aria-describedby="emailHelp" name="email" value="<%= params['email'] if params['email'] != nil %>">
 						    <div class = "col-sm-1"></div>
 						</div>
 						<div class="form-group row">

@@ -50,7 +50,7 @@ end
 get '/submitions' do
 	@title = 'Submitions'
 
-	erb :index
+	erb :submitions
 end
 
 get '/problems/:pid/submit' do |pid|
@@ -61,16 +61,31 @@ get '/problems/:pid/submit' do |pid|
 end
 
 post '/problems/:pid/submit' do |pid|
-	@title = 'Submit'
-	@pid = pid
-
 	begin
-		$redis.rpush('queue',JSON.generate(params))
+		$redis.lpush('queue',JSON.generate({
+			'sid' => $redis.incr('sid'),
+			'pid' => params['PID'],
+			'lang' => params['lang'],
+			'code' => params['CODE'],
+			'create_time' => Time.now().strftime("%Y-%m-%d %H:%M")
+		}))
 		
 		@msg = [{"type" => "success", "content" => "Submition had been sent!"}]
+		redirect '/submitions'
 	rescue
 		@msg = [{"type" => "warning", "content" => "System busy! Please wait a second and submit again."}]
 	end
 
+	@title = 'Submit'
+	@pid = params['PID']
+	@code = params['CODE']
+
 	erb :submit
 end
+
+get '/reset' do
+	$redis.flushall()
+	$redis.set('docker', 0)
+	redirect '/submitions'
+end
+

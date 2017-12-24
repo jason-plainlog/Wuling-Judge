@@ -1,0 +1,35 @@
+<!-- Auto Reload
+<script language="javascript">
+	setTimeout(function(){window.location.reload();}, 6000);
+</script> 
+-->
+<div class="card border-gray mb-3">
+	<div class="card-header"><i class="fas fa-sync-alt"></i> Submitions</div>
+	<div class="card-body text-dark">
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col"><i class="fas fa-hashtag"></i></th>
+					<th scope="col">User</th>
+					<th scope="col">Problem</th>
+					<th scope="col">Result</th>
+					<th scope="col">Language</th>
+					<th scope="col">Time</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% $redis.lrange('queue', 0, 100).each do |pending| %>
+					<% pending = JSON.parse(pending) %>
+				<tr>	
+					<th><%= pending['sid'] %></th>
+					<th><%= "Jason Hsieh" %></th>
+					<th><%= pending['pid'] %> - Problem Title</th>
+					<th><i class="fas fa-sync-alt"></i> Pending</th>
+					<th><%= $languages[pending['lang'].to_i] %></th>
+					<th><%= pending['create_time'] %></th>
+				</tr>
+				<% end %>
+			</tbody>
+		</table>
+	</div>
+</div>

@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(version: 20171223113056) do
     t.string "name"
     t.string "email"
     t.string "password"
+    t.text "status"
   end
 
 end

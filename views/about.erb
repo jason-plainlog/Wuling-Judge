@@ -17,7 +17,7 @@
 	</div>
     <div class="col-lg-6">
     	<div class="card border-gray mb-3">
-			<div class="card-header"><i class="fas fa-thermometer-half"></i> System States</div>
+			<div class="card-header"><i class="fas fa-thermometer-half"></i> System Status</div>
 			<div class="card-body text-dark">
 				<p>Resources</p>
 				<table class="table">
@@ -44,7 +44,7 @@
 						</tr>
 						<tr>
 							<th><i class="fas fa-sync-alt"></i></th>
-							<td>Queue</td>
+							<td>Pending</td>
 							<td><%= $redis.llen('queue') %></td>
 						</tr>
 						<tr>

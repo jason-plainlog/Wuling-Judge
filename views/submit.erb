@@ -1,4 +1,4 @@
-<form action="#" method="POST">
+<form action="/problems/<%= @pid %>/submit" method="POST" name="submit">
 	<fieldset>
 		<div class="row">
 		    <div class="col-lg-4">
@@ -11,11 +11,11 @@
 					    </div>
 					    <div class="form-group row">
 					    	<label for="lang" class="col-sm-5 col-form-label">Language</label>
-						    <select class="custom-select col-sm-6" value="<%= params['lang'] %>" name="lang">
-						      <option value="1">C</option>
-						      <option value="2">C++</option>
-						      <option value="3">Ruby</option>
-						      <option value="4">Python</option>
+						    <select class="custom-select col-sm-6" value="<%= params['lang'] %>" name="lang" onChange='chg()'>
+						      <option value="0">C</option>
+						      <option value="1">C++</option>
+						      <option value="2">Ruby</option>
+						      <option value="3">Python</option>
 						    </select>
 						 </div>
 						 <div class="row">
@@ -37,12 +37,19 @@
 								<script>
 								    var editor = ace.edit("editor");
 								    editor.setTheme("ace/theme/tomorrow");
-								    editor.getSession().setMode("ace/mode/c_cpp");
+								    editor.getSession().setMode({path: "ace/mode/c_cpp", v: Date.now()});
 
 								    var input = $('input[name="code"]');
 								        editor.getSession().on("change", function () {
 								        input.val(editor.getSession().getValue());
 								    });
+
+								    function chg() {
+								    	mode = ["c_cpp", "c_cpp", "ruby", "python"]
+								    	value = document.submit.lang.value;
+								    	console.log(value);
+								    	editor.getSession().setMode({path: "ace/mode/" + mode[value], v: Date.now()});
+								    }
 								</script>
 							</div>
 						</div>

@@ -18,15 +18,30 @@
 				</tr>
 			</thead>
 			<tbody>
-				<% $redis.lrange('queue', 0, 100).each do |pending| %>
-					<% pending = JSON.parse(pending) %>
-				<tr>	
-					<th><%= pending['sid'] %></th>
-					<th><%= "Jason Hsieh" %></th>
-					<th><%= pending['pid'] %> - Problem Title</th>
-					<th><i class="fas fa-sync-alt"></i> Pending</th>
-					<th><%= $languages[pending['lang'].to_i] %></th>
-					<th><%= pending['create_time'] %></th>
+				<% Submission.last(50).reverse.each do |submission| %>
+				<tr>
+					<th><%= submission['id'] %></th>
+					<th><%= User.find(submission['userid']).email %></th>
+					<th><%= submission['pid'] %> - Problem Title</th>
+
+					<% if submission['status'] == 0 %>
+						<th><i class="fas fa-spin fa-sync-alt"></i> Pending</th>
+					<% elsif submission['status'] == 1%>
+						<th style="color: green;"><i class="fas fa-check"></i> Accepted</th>
+					<% elsif submission['status'] == 2%>
+						<th style="color: brown;"><i class="fas fa-times"></i> Wrong Answer</th>
+					<% elsif submission['status'] == 3%>
+						<th style="color: orange;"><i class="fas fa-exclamation"></i> Compile Error</th>
+					<% elsif submission['status'] == 4%>
+						<th style="color: orange;"><i class="fas fa-exclamation"></i> Runtime Error</th>
+					<% elsif submission['status'] == 5%>
+						<th style="color: orange;"><i class="fas fa-exclamation"></i> Memory Exceed</th>
+					<% elsif submission['status'] == 6%>
+						<th style="color: orange;"><i class="fas fa-exclamation"></i> Time Exceed</th>
+					<% end %>
+
+					<th><%= $languages[submission['lang'].to_i]["name"] %></th>
+					<th><%= submission['created_at'] %></th>
 				</tr>
 				<% end %>
 			</tbody>

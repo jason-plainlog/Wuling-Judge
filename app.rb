@@ -2,12 +2,32 @@ require 'redis'
 require 'digest'
 require 'sinatra'
 require "sinatra/activerecord"
-require 'usagewatch_ext'
+require './settings'
 require './models/redis.rb'
 require './models/user.rb'
-require './settings'
+require './models/submission.rb'
 
 set :database, {adapter: "sqlite3", database: "./db/db.sqlite3"}
+set :sessions => true
+
+register do
+	def auth(type)
+		condition do
+			redirect "/signin" unless send("is_#{type}?")
+		end
+	end
+end
+
+helpers do
+	def is_user?
+		@user != nil
+	end
+end
+
+before do
+	@loadtime = Time.now
+	@user = User.find_by(id: session[:user_id])
+end
 
 get '/' do
 	@title = 'Home'
@@ -23,15 +43,21 @@ get '/about' do
 end
 
 get '/signin' do
+    session[:user_id] = nil
+    @user = nil
 	@title = 'Sign in/up'
 
 	erb :signin
 end
 
 post '/signin' do
+	@title = 'Sign in/up'
+
 	if params['submit'] == 'signin'
-		if User.find_by(email: params['email']).password == Digest::MD5.hexdigest(params['password'])
-			@msg = [{"type" => "success", "content" => "Signed in successfully!"}]
+		user = User.find_by(email: params['email'])
+		if user != nil && user.password == Digest::MD5.hexdigest(params['password'])
+			session[:user_id] = User.find_by(email: params['email']).id
+			redirect '/'
 		else
 			@msg = [{"type" => "warning", "content" => "Wrong email or password!"}]
 		end
@@ -39,7 +65,7 @@ post '/signin' do
 		if User.exists?(email: params['email'])
 			@msg = [{"type" => "warning", "content" => "This email had been registered!"}]
 		else
-			user = User.create(email: params['email'], password: Digest::MD5.hexdigest(params['password']))
+			User.create(email: params['email'], password: Digest::MD5.hexdigest(params['password']))
 			@msg = [{"type" => "success", "content" => "Success Registered!"}]
 		end
 	end
@@ -53,24 +79,25 @@ get '/submitions' do
 	erb :submitions
 end
 
-get '/problems/:pid/submit' do |pid|
+get '/problems/:pid/submit', :auth => :user do |pid|
 	@title = 'Submit'
 	@pid = pid
 
 	erb :submit
 end
 
-post '/problems/:pid/submit' do |pid|
+post '/problems/:pid/submit', :auth => :user do |pid|
 	begin
 		$redis.lpush('queue',JSON.generate({
-			'sid' => $redis.incr('sid'),
+			'sid' => Submission.count + 1,
+			'userid' => @user.id,
 			'pid' => params['PID'],
 			'lang' => params['lang'],
-			'code' => params['CODE'],
-			'create_time' => Time.now().strftime("%Y-%m-%d %H:%M")
+			'code' => params['CODE']
 		}))
-		
-		@msg = [{"type" => "success", "content" => "Submition had been sent!"}]
+
+		Submission.create(userid: @user.id, lang: params['lang'], pid: params['PID'], status: 0, created_at: Time.now().strftime("%Y-%m-%d %H:%M"))
+
 		redirect '/submitions'
 	rescue
 		@msg = [{"type" => "warning", "content" => "System busy! Please wait a second and submit again."}]

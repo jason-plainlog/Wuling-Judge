@@ -12,10 +12,9 @@
 					    <div class="form-group row">
 					    	<label for="lang" class="col-sm-5 col-form-label">Language</label>
 						    <select class="custom-select col-sm-6" value="<%= params['lang'] %>" name="lang" onChange='chg()'>
-						      <option value="0">C</option>
-						      <option value="1">C++</option>
-						      <option value="2">Ruby</option>
-						      <option value="3">Python</option>
+						    	<% for i in 0..($languages.size-1) %>
+						    	<option value="<%= i %>"><%= $languages[i]["name"] %></option>
+						    	<% end %>
 						    </select>
 						 </div>
 						 <div class="row">
@@ -47,7 +46,7 @@
 								    });
 
 								    function chg() {
-								    	mode = ["c_cpp", "c_cpp", "ruby", "python"]
+								    	mode = ["c_cpp", "c_cpp", "ruby", "python", "python"]
 								    	value = document.submit.lang.value;
 								    	console.log(value);
 								    	editor.getSession().setMode({path: "ace/mode/" + mode[value], v: Date.now()});

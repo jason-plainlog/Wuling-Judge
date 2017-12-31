@@ -17,13 +17,18 @@ ActiveRecord::Schema.define(version: 20171230003958) do
     t.integer "pid"
     t.integer "userid"
     t.integer "status"
+    t.string "runtime"
     t.string "created_at"
   end
 
   create_table "users", force: :cascade do |t|
+    t.integer "accepted"
+    t.integer "submitted"
     t.string "name"
-    t.string "email"
+    t.string "alias"
     t.string "password"
+    t.string "created_at"
+    t.text "info"
     t.text "status"
   end
 

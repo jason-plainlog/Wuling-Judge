@@ -6,12 +6,13 @@
 				<p>
 					<%= $service_name %> is a judge developed by students of Wuling High School. Built with <a href="https://www.ruby-lang.org/" target="_blank">Ruby</a> programming language, <a href="http://sinatrarb.com" target="_blank">Sinatra</a> framework, <a href="https://redis.io" target="_blank">Redis</a> and <a href="hhttps://sqlite.org" target="_blank">Sqlite3</a> database and <a href="https://www.docker.com" target="_blank">Docker</a> container.<br>
 				</p>
-				<h5 class="card-title">Main Developers:</h5>
+				Main Developers:
 				<ul>
 					<% $developers.each do |name, link|%>
 						<li><a <%= 'href="' + link + '" target="_blank"' if link != nil %>><%= name %></a></li>
 					<% end %>
 				</ul>
+				Github: <a href="https://github.com/jason-plainlog/wlsh-judge" target="_blank">jason-plainlog/wlsh-judge</a>
 			</div>
 		</div>
 	</div>
@@ -30,7 +31,7 @@
 						<tr>
 							<th><i class="fas fa-users"></i></th>
 							<td>Users</td>
-							<td><%= @user_count %></td>
+							<td><%= User.count %></td>
 						</tr>
 						<tr>
 							<th><i class="fas fa-sync-alt"></i></th>

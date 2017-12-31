@@ -1,0 +1,44 @@
+<div class="row">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-8">
+    	<div class="card border-gray mb-3">
+			<div class="card-header"><i class="fas fa-cog"></i> Settings</div>
+			<div class="card-body text-dark">
+				<form action="/settings" method="POST">
+					<fieldset>
+						<div class="form-group row">
+							<div class = "col-sm-1"></div>
+							<label for="Alias" class="col-sm-3 col-form-label"><i class="fas fa-user-circle"></i> Alias</label>
+						    <input class="form-control col-sm-7" id="Alias" name="alias" placeholder="Use <%= @user.name %> as default" value="<%= @user.alias %>">
+						    <div class = "col-sm-1"></div>
+						</div>
+						<div class="form-group row">
+							<div class = "col-sm-1"></div>
+						    <label for="exampleTextarea" class="col-sm-3 col-form-label"><i class="fas fa-info-circle"></i> Information</label>
+						    <textarea class="form-control col-sm-7" id="exampleTextarea" rows="5" placeholder="This will be display on your profile page" name="info"><%= @user.info %></textarea>
+						    <div class = "col-sm-1"></div>
+					    </div>
+						<div class="form-group row">
+							<div class = "col-sm-1"></div>
+							<label for="Password" class="col-sm-3 col-form-label"><i class="fas fa-key"></i> New Password</label>
+						    <input type="Password" class="form-control col-sm-7" id="Password" name="new_password" placeholder="Leave this blank if don't want to change password">
+						    <div class = "col-sm-1"></div>
+						</div>
+						<div class="form-group row">
+							<div class = "col-sm-1"></div>
+							<label for="Password" class="col-sm-3 col-form-label"><i class="fas fa-key"></i> Password</label>
+						    <input type="Password" class="form-control col-sm-7" id="Password" name="password" required="required">
+						    <div class = "col-sm-1"></div>
+						</div><br>
+						<div class="row">
+						 	<div class="col-sm-5"></div>
+						 	<button type="submit" class="btn btn-primary col-sm-2" name="submit"><i class="fas fa-save"></i> Save</button>
+						 	<div class="col-sm-5"></div>
+						 </div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-2"></div>
+</div>

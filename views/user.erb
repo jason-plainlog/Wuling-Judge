@@ -1,0 +1,43 @@
+<div class="row">
+    <div class="col-lg-6">
+    	<div class="card border-gray mb-3">
+			<div class="card-header"><i class="fas fa-user-circle"></i> <%= @display.alias %> <span class="badge badge-pill badge-primary"><%= @status['accepted'].length %></span></div>
+			<div class="card-body text-dark">
+				<%= @display.info.gsub('<', '&lt;').gsub('>', '&gt;') + "<br><br>" if @display.info != nil && @display.info != "" %>
+
+				Signed up at: <%= @display.created_at %>
+			</div>
+		</div>
+	</div>
+    <div class="col-lg-6">
+    	<div class="card border-gray mb-3">
+			<div class="card-header"><i class="fas fa-trophy"></i> Status</div>
+			<div class="card-body text-dark">
+				<table class="table">
+					<tbody>
+						<tr>
+							<th><i class="fas fa-hashtag"></i></th>
+							<td>Rank</td>
+							<td><%= User.where("accepted >= ?", @display.accepted).where("submitted <= ?", @display.submitted).count %></td>
+						</tr>
+						<tr>
+							<th><i class="fas fa-hourglass-half"></i></th>
+							<td>Tried</td>
+							<td><%= @status['tried'].length %></td>
+						</tr>
+						<tr>
+							<th><i class="fas fa-check"></i></th>
+							<td>Accepted</td>
+							<td><%= @display.accepted %></td>
+						</tr>
+						<tr>
+							<th><i class="fas fa-paper-plane"></i></th>
+							<td>Submissions</td>
+							<td><%= @display.submitted %></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

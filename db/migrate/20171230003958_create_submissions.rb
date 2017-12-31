@@ -5,6 +5,7 @@ class CreateSubmissions < ActiveRecord::Migration[5.1]
   		t.integer :pid
   		t.integer :userid
   		t.integer :status
+  		t.string :runtime
   		t.string :created_at
   	end
   end

@@ -1,0 +1,53 @@
+<!-- Auto Reload
+<script language="javascript">
+	setTimeout(function(){window.location.reload();}, 6000);
+</script> 
+-->
+<div class="card border-gray mb-3">
+	<div class="card-header"><i class="fas fa-sync-alt"></i> Submissions</div>
+	<div class="card-body text-dark">
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col"><i class="fas fa-hashtag"></i></th>
+					<th scope="col">User</th>
+					<th scope="col">Problem</th>
+					<th scope="col">Result</th>
+					<th scope="col">Language</th>
+					<th scope="col">Runtime</th>
+					<th scope="col">Date</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% Submission.last(60).reverse.each do |submission| %>
+				<tr>
+					<th><%= submission['id'] %></th>
+					<% user = User.find(submission['userid']) %>
+					<th><a href="/users/<%= user.id %>"><%= user.alias %> <span class="badge badge-pill badge-primary"><%= JSON.parse(user.status)['accepted'].length %></span></a></th>
+					<th><a href="/problems/<%= submission['pid'] %>"><%= submission['pid'] %> - Problem Title</a></th>
+
+					<% if submission['status'] == 0 %>
+						<th><i class="fas fa-spin fa-sync-alt"></i> Pending</th>
+					<% elsif submission['status'] == 1%>
+						<th class="text-success"><i class="fas fa-check"></i> Accepted</th>
+					<% elsif submission['status'] == 2%>
+						<th class="text-danger"><i class="fas fa-times"></i> Wrong Answer</th>
+					<% elsif submission['status'] == 3%>
+						<th class="text-warning"><i class="fas fa-exclamation"></i> Compile Error</th>
+					<% elsif submission['status'] == 4%>
+						<th class="text-warning"><i class="fas fa-exclamation"></i> Runtime Error</th>
+					<% elsif submission['status'] == 5%>
+						<th class="text-warning"><i class="fas fa-exclamation"></i> Memory Exceed</th>
+					<% elsif submission['status'] == 6%>
+						<th class="text-warning"><i class="fas fa-exclamation"></i> Time Exceed</th>
+					<% end %>
+
+					<th><%= $languages[submission['lang'].to_i]["name"] %></th>
+					<th><%= submission['runtime'] %></th>
+					<th><%= submission['created_at'] %></th>
+				</tr>
+				<% end %>
+			</tbody>
+		</table>
+	</div>
+</div>

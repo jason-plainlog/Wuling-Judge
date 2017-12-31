@@ -1,3 +1,4 @@
+require 'set'
 require 'redis'
 require 'digest'
 require 'sinatra'
@@ -37,7 +38,6 @@ end
 
 get '/about' do
 	@title = 'About'
-	@user_count = User.count
 
 	erb :about
 end
@@ -54,18 +54,29 @@ post '/signin' do
 	@title = 'Sign in/up'
 
 	if params['submit'] == 'signin'
-		user = User.find_by(email: params['email'])
+		user = User.find_by(name: params['name'])
 		if user != nil && user.password == Digest::MD5.hexdigest(params['password'])
-			session[:user_id] = User.find_by(email: params['email']).id
+			session[:user_id] = user.id
 			redirect '/'
 		else
 			@msg = [{"type" => "warning", "content" => "Wrong email or password!"}]
 		end
 	elsif params['submit'] == 'signup'
-		if User.exists?(email: params['email'])
-			@msg = [{"type" => "warning", "content" => "This email had been registered!"}]
+		if User.exists?(name: params['name'])
+			@msg = [{"type" => "warning", "content" => "This name had been registered!"}]
 		else
-			User.create(email: params['email'], password: Digest::MD5.hexdigest(params['password']))
+			User.create(
+				name: params['name'],
+				password: Digest::MD5.hexdigest(params['password']),
+				alias: params['name'],
+				created_at: Time.now().strftime("%Y-%m-%d %H:%M"),
+				accepted: 0,
+				submitted: 0,
+				status: JSON.generate({
+					"accepted" => [],
+					"tried" => []
+				})
+			)
 			@msg = [{"type" => "success", "content" => "Success Registered!"}]
 		end
 	end
@@ -73,10 +84,43 @@ post '/signin' do
 	erb :signin
 end
 
-get '/submitions' do
-	@title = 'Submitions'
+get '/settings', :auth => :user do
+	@title = 'Settings'
 
-	erb :submitions
+	erb :settings
+end
+
+
+post '/settings', :auth => :user do
+	@title = 'Settings'
+
+	if @user.password == Digest::MD5.hexdigest(params['password'])
+		@user.info = params['info']
+		@user.alias = params['alias'] if params['alias'] != ""
+		@user.password = Digest::MD5.hexdigest(params['new_password']) if params['new_password'] != ""
+		@user.save
+		@msg = [{"type" => "success", "content" => "Settings Saved"}]
+	else
+		@msg = [{"type" => "warning", "content" => "Wrong Password!"}]
+	end
+
+	erb :settings
+end
+
+get '/submissions' do
+	@title = 'Submissions'
+
+	erb :submissions
+end
+
+get '/users/:id' do |id|
+	@display = User.find_by(id: id)
+	halt(404) if @display == nil
+
+	@title = @display.alias
+	@status = JSON.parse(@display.status)
+
+	erb :user
 end
 
 get '/problems/:pid/submit', :auth => :user do |pid|
@@ -96,9 +140,14 @@ post '/problems/:pid/submit', :auth => :user do |pid|
 			'code' => params['CODE']
 		}))
 
-		Submission.create(userid: @user.id, lang: params['lang'], pid: params['PID'], status: 0, created_at: Time.now().strftime("%Y-%m-%d %H:%M"))
+		Submission.create(userid: @user.id,lang: params['lang'], pid: params['PID'], status: 0, created_at: Time.now().strftime("%Y-%m-%d %H:%M"))
+		status = JSON.parse(@user.status)
+		status['tried'] = status['tried'].to_set.add(params['PID']).to_a
+		@user.status = JSON.generate(status)
+		@user.submitted += 1
+		@user.save
 
-		redirect '/submitions'
+		redirect '/submissions'
 	rescue
 		@msg = [{"type" => "warning", "content" => "System busy! Please wait a second and submit again."}]
 	end
@@ -116,3 +165,7 @@ get '/reset' do
 	redirect '/submitions'
 end
 
+not_found do
+  status 404
+  redirect '/'
+end

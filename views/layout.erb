@@ -36,8 +36,8 @@
 	      			<li class="nav-item <%= 'active' if request.path.split('/')[1] == 'problems' %>">
 	        			<a class="nav-link" href="/problems"><i class="fas fa-archive"></i> Problems</a>
 	      			</li>
-	      			<li class="nav-item <%= 'active' if request.path.split('/')[1] == 'submitions' %>">
-	        			<a class="nav-link" href="/submitions"><i class="fas fa-sync-alt"></i> Submitions</a>
+	      			<li class="nav-item <%= 'active' if request.path.split('/')[1] == 'submissions' %>">
+	        			<a class="nav-link" href="/submissions"><i class="fas fa-sync-alt"></i> Submissions</a>
 	      			</li>
 	      			<li class="nav-item">
 	        			<a class="nav-link" href="/ranks"><i class="fas fa-sort"></i> Ranks</a>
@@ -50,12 +50,12 @@
 		            </li>
 		            <% else %>
 		            <li class="nav-item active dropdown">
-		              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="download" aria-expanded="false"><%= @user.email %> <span class="caret"></span></a>
+		              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="download" aria-expanded="false"><i class="fas fa-user-circle"></i> <%= @user.alias == nil ? @user.name : @user.alias %> <span class="caret"></span></a>
 		              <div class="dropdown-menu" aria-labelledby="download">
-		              	<a class="dropdown-item" href="/profile">Profile</a>
-		                <a class="dropdown-item" href="/settings">Settings</a>
+		              	<a class="dropdown-item" href="/users/<%= @user.id %>"><i class="fas fa-address-card"></i> Profile</a>
+		                <a class="dropdown-item" href="/settings"><i class="fas fa-cog"></i> Settings</a>
 		                <div class="dropdown-divider"></div>
-		                <a class="dropdown-item" href="/signin">Sign out</a>
+		                <a class="dropdown-item" href="/signin"><i class="fas fa-sign-out-alt"></i> Sign out</a>
 		              </div>
 		            </li>
 		            <% end %>
@@ -77,7 +77,7 @@
 		<%= yield %>
 		<br>
 		<p>
-			Loadtime -> <%= ((Time.now - @loadtime) * 1000.0).round(2) %> ms<br>
+			Loadtime: <%= ((Time.now - @loadtime) * 1000.0).round(2) %> ms<br>
 			Developed by Jason Hsieh.<br>
 			Copyright © <%= Time.now.year %> <%= $service_name %>. All rights reserved.<br>
 		</p>

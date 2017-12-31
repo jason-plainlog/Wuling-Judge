@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-lg-6">
     	<div class="card border-gray mb-3">
-			<div class="card-header"><i class="fas fa-user-circle"></i> <%= @display.alias %> <span class="badge badge-pill badge-primary"><%= @status['accepted'].length %></span></div>
+			<div class="card-header"><i class="fas fa-user-circle"></i> <%= @display.alias %> <span class="badge badge-pill badge-primary"><%= @display.accepted %></span></div>
 			<div class="card-body text-dark">
 				<%= @display.info.gsub('<', '&lt;').gsub('>', '&gt;') + "<br><br>" if @display.info != nil && @display.info != "" %>
 

@@ -39,7 +39,7 @@
 	      			<li class="nav-item <%= 'active' if request.path.split('/')[1] == 'submissions' %>">
 	        			<a class="nav-link" href="/submissions"><i class="fas fa-sync-alt"></i> Submissions</a>
 	      			</li>
-	      			<li class="nav-item">
+	      			<li class="nav-item <%= 'active' if request.path.split('/')[1] == 'ranks' %>">
 	        			<a class="nav-link" href="/ranks"><i class="fas fa-sort"></i> Ranks</a>
 	      			</li>
 	    		</ul>

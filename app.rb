@@ -69,7 +69,7 @@ post '/signin' do
 				name: params['name'],
 				password: Digest::MD5.hexdigest(params['password']),
 				alias: params['name'],
-				created_at: Time.now().strftime("%Y-%m-%d %H:%M"),
+				created_at: Time.now().strftime("%Y-%m-%d"),
 				accepted: 0,
 				submitted: 0,
 				status: JSON.generate({
@@ -159,10 +159,16 @@ post '/problems/:pid/submit', :auth => :user do |pid|
 	erb :submit
 end
 
+get '/ranks' do
+	@title = 'Ranks'
+
+	erb :ranks
+end
+
 get '/reset' do
 	$redis.flushall()
 	$redis.set('docker', 0)
-	redirect '/submitions'
+	redirect '/submissions'
 end
 
 not_found do

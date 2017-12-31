@@ -1,0 +1,30 @@
+<div class="card border-gray mb-3">
+	<div class="card-header"><i class="fas fa-sort"></i> Ranks</div>
+	<div class="card-body text-dark">
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col"><i class="fas fa-hashtag"></i></th>
+					<th scope="col">User</th>
+					<th scope="col">Tried</th>
+					<th scope="col">Accepted</th>
+					<th scope="col">Submissions</th>
+					<th scope="col">Sign up at</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% tops = User.order('accepted DESC, submitted').take(30) %>
+				<% for i in 0..(tops.count-1) %>
+				<tr>
+					<th><%= i + 1 %></th>
+					<th><a href="/users/<%= tops[i].id %>"><%= tops[i].alias %></a></th>
+					<th><%= JSON.parse(tops[i].status)['tried'].length %></th>
+					<th><%= tops[i].accepted %></th>
+					<th><%= tops[i].submitted %></th>
+					<th><%= tops[i].created_at %></th>
+				</tr>
+				<% end %>
+			</tbody>
+		</table>
+	</div>
+</div>

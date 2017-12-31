@@ -23,7 +23,7 @@
 				<tr>
 					<th><%= submission['id'] %></th>
 					<% user = User.find(submission['userid']) %>
-					<th><a href="/users/<%= user.id %>"><%= user.alias %> <span class="badge badge-pill badge-primary"><%= JSON.parse(user.status)['accepted'].length %></span></a></th>
+					<th><a href="/users/<%= user.id %>"><%= user.alias %> <span class="badge badge-pill badge-primary"><%= user.accepted %></span></a></th>
 					<th><a href="/problems/<%= submission['pid'] %>"><%= submission['pid'] %> - Problem Title</a></th>
 
 					<% if submission['status'] == 0 %>
@@ -43,7 +43,7 @@
 					<% end %>
 
 					<th><%= $languages[submission['lang'].to_i]["name"] %></th>
-					<th><%= submission['runtime'] %></th>
+					<th><%= submission['runtime'] == nil ? "--" : submission['runtime'] %></th>
 					<th><%= submission['created_at'] %></th>
 				</tr>
 				<% end %>

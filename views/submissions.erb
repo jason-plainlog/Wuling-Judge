@@ -53,13 +53,19 @@
 		<div class="form-group row">
 			<div class = "col-sm-5"></div>
 			<div class="btn-group col-sm-2" role="group">
-				<% if @page != 0 %>
-				<a href="/submissions/<%= @page - 1 %>"><< Previous</a>
-				<% end %>
-				&nbsp;|&nbsp;
-				<% if @page * 20 + 20 < Submission.count %>
-				<a href="/submissions/<%= @page + 1 %>">Next >></a>
-				<% end %>
+				<div>
+				  <ul class="pagination">
+				    <li class="page-item <%= "disabled" if @page == 0 %>">
+				      <a class="page-link" href="/submissions/<%= @page - 1 %>">&laquo;</a>
+				    </li>
+				    <li class="page-item">
+				      <a class="page-link"><%= @page %></a>
+				    </li>
+				    <li class="page-item <%= "disabled" if (@page + 1) * 20 > Submission.count %>">
+				      <a class="page-link" href="/submissions/<%= @page + 1 %>">&raquo;</a>
+				    </li>
+				  </ul>
+				</div>
 			</div>
 		    <div class = "col-sm-5"></div>
 		</div>

@@ -77,7 +77,9 @@ post '/signin' do
 					"tried" => []
 				})
 			)
-			@msg = [{"type" => "success", "content" => "Success Registered!"}]
+
+			session[:user_id] = User.find_by(name: params['name'])
+			redirect '/settings'
 		end
 	end
 
@@ -109,6 +111,18 @@ end
 
 get '/submissions' do
 	@title = 'Submissions'
+
+	@submissions = Submission.last(20).reverse
+	@page = 0
+
+	erb :submissions
+end
+
+get '/submissions/:page' do |page|
+	@title = 'Submissions'
+	
+	@submissions = Submission.where("id <= ?", Submission.count - page.to_i * 20).where("id > ?", Submission.count - page.to_i * 20 - 20).reverse
+	@page = page.to_i
 
 	erb :submissions
 end
@@ -168,7 +182,7 @@ end
 get '/reset' do
 	$redis.flushall()
 	$redis.set('docker', 0)
-	redirect '/submissions'
+	redirect '/about'
 end
 
 not_found do

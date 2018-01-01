@@ -19,7 +19,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<% Submission.last(60).reverse.each do |submission| %>
+				<% @submissions.each do |submission| %>
 				<tr>
 					<th><%= submission['id'] %></th>
 					<% user = User.find(submission['userid']) %>
@@ -49,5 +49,19 @@
 				<% end %>
 			</tbody>
 		</table>
+		
+		<div class="form-group row">
+			<div class = "col-sm-5"></div>
+			<div class="btn-group col-sm-2" role="group">
+				<% if @page != 0 %>
+				<a href="/submissions/<%= @page - 1 %>"><< Previous</a>
+				<% end %>
+				&nbsp;|&nbsp;
+				<% if @page * 20 + 20 < Submission.count %>
+				<a href="/submissions/<%= @page + 1 %>">Next >></a>
+				<% end %>
+			</div>
+		    <div class = "col-sm-5"></div>
+		</div>
 	</div>
 </div>
